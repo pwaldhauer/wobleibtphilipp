@@ -37,7 +37,7 @@ class WhereAmI {
     private $way = array();
 
     public function initializeFoursquare($consumer_id, $consumer_secret, $token) {
-         $this->foursquare = new FoursquareAPI($consumer_id, $consumer_secret);
+        $this->foursquare = new FoursquareAPI($consumer_id, $consumer_secret);
         $this->foursquare->SetAccessToken($token);
     }
 
@@ -101,8 +101,6 @@ class WhereAmI {
                 if($time < $hours) {
                     continue;
                 }
-
-              
 
                 $dif = $time - $hours;
                 break;
