@@ -119,17 +119,22 @@ class WhereAmI {
     private function _getLastCheckin() {
         $foursquare_data = $this->_loadCheckinData();
 
-        $checkins = array();
-        foreach ($foursquare_data->response->checkins->items as $checkin) {
-            $obj = new Checkin();
-            $obj->venue_id = $checkin->venue->id;
-            $obj->venue = $checkin->venue->name;
-            $obj->date = $checkin->createdAt;
+	if(!is_object($foursquare_data)) {
+		return null;
+	}
 
-            $checkins[] = $obj;
-        }
+	if(!count($foursquare_data->response->checkins->items)) {
+		return null;
+	}
 
-        return $checkins[0];
+	$checkin = $foursquare_data->response->checkins->items[0];
+        
+	$obj = new Checkin();
+        $obj->venue_id = $checkin->venue->id;
+        $obj->venue = $checkin->venue->name;
+        $obj->date = $checkin->createdAt;
+
+        return $obj;
     }
 
     private function _prepareTimes($numbers) {
@@ -152,6 +157,7 @@ class WhereAmI {
             return json_decode(file_get_contents($this->cache_file));
         } 
 
+	// Currently we only need the last one, but, hey.
         $checkins = json_decode($this->foursquare->GetPrivate('users/self/checkins', array('limit' => '20')));
         file_put_contents($this->cache_file, json_encode($checkins));
 
