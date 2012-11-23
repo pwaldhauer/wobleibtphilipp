@@ -29,7 +29,7 @@ class WhereAmI {
     private $cache_time = 300;
     private $cache_file = 'checkin_cache';
 
-    private $last_threshold = 86400;
+    private $last_threshold = 30000;
 
     private $start_venue = '';
     private $end_venue = '';
